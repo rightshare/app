@@ -30,6 +30,7 @@ import {
 } from "../../../components/Component";
 import { Link } from "react-router-dom";
 import { invoiceData } from "./Invoice";
+import TableDatas from "./TableDatas";
 
 const InvoiceList = () => {
   const [data, setData] = useState(invoiceData);
@@ -365,13 +366,13 @@ const InvoiceList = () => {
                 <Form className="row gy-4" noValidate onSubmit={handleSubmit(onFormSubmit)}>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Company Name</label>
+                      {/* <label className="form-label">Company Name</label> */}
                       <input
                         className="form-control"
                         type="text"
                         name="name"
                         defaultValue={formData.name}
-                        placeholder="Company Enter name"
+                        placeholder="Company Name"
                         ref={register({ required: "This field is required" })}
                       />
                       {errors.name && <span className="invalid">{errors.name.message}</span>}
@@ -379,13 +380,13 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Invoice Number</label>
+                      {/* <label className="form-label">Invoice Number</label> */}
                       <input
                         className="form-control"
                         type="text"
                         name="name"
                         defaultValue={formData.name}
-                        placeholder="Auto Generated"
+                        placeholder="Invoice Number Auto Generated"
                         ref={register({ required: "This field is required" })}
                       />
                       {errors.name && <span className="invalid">{errors.name.message}</span>}
@@ -393,7 +394,7 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Company Email</label>
+                      {/* <label className="form-label">Company Email</label> */}
                       <input
                         className="form-control"
                         type="text"
@@ -407,13 +408,13 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Invoice Date</label>
+                      {/* <label className="form-label">Invoice Date</label> */}
                       <input
                         className="form-control"
                         type="text"
                         name="name"
                         defaultValue={formData.name}
-                        placeholder="Company Enter name"
+                        placeholder="Date"
                         ref={register({ required: "This field is required" })}
                       />
                       {errors.name && <span className="invalid">{errors.name.message}</span>}
@@ -421,7 +422,7 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Currency </label>
+                      {/* <label className="form-label">Currency </label> */}
                       {/* <input
                         className="form-control"
                         type="text"
@@ -446,7 +447,7 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Due Date</label>
+                      {/* <label className="form-label">Due Date</label> */}
                       <input
                         className="form-control"
                         type="number"
@@ -460,12 +461,13 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Phone</label>
+                      {/* <label className="form-label">Phone</label> */}
                       <input
                         className="form-control"
                         type="number"
                         name="phone"
                         defaultValue={formData.phone}
+                        placeholder="Enter Phone Number"
                         ref={register({ required: "This field is required" })}
                       />
                       {errors.phone && <span className="invalid">{errors.phone.message}</span>}
@@ -473,7 +475,7 @@ const InvoiceList = () => {
                   </Col>
                   <Col md="6">
                     <FormGroup>
-                      <label className="form-label">Advance Payment</label>
+                      {/* <label className="form-label">Advance Payment</label> */}
                       <input
                         className="form-control"
                         type="number"
@@ -483,6 +485,15 @@ const InvoiceList = () => {
                         ref={register({ required: "This field is required" })}
                       />
                       {errors.balance && <span className="invalid">{errors.balance.message}</span>}
+                    </FormGroup>
+                  </Col>
+
+                  <Col md="12">
+                    <FormGroup>
+                      {/* <label className="form-label">Select Currency</label> */}
+                      <div className="form-control-wrap">
+                        <TableDatas></TableDatas>
+                      </div>
                     </FormGroup>
                   </Col>
 

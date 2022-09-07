@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "fullName": "Item 1",
+    "address": "5.0",
+    "phoneNumber": "2.0",
+    "email": "10.0"
+  },
+  {
+    "id": 2,
+    "fullName": "Item 2",
+    "address": "5.0",
+    "phoneNumber": "2.0",
+    "email": "10.0"
+  }
+]

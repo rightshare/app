@@ -84,7 +84,7 @@ import ReactToastify from "../pages/components/misc/ReactToastify";
 
 import AppMessages from "../pages/app/messages/Messages";
 import Chat from "../pages/app/chat/ChatContainer";
-import Calender from "../pages/app/calender/Calender";
+// import Calender from "../pages/app/calender/Calender";
 import FileManager from "../pages/app/file-manager/FileManager";
 import Inbox from "../pages/app/inbox/Inbox";
 import Kanban from "../pages/app/kanban/Kanban";
@@ -202,7 +202,7 @@ const Pages = () => {
         {/*Application*/}
         <Route exact path={`${process.env.PUBLIC_URL}/app-messages`} component={AppMessages}></Route>
         <Route exact path={`${process.env.PUBLIC_URL}/app-chat`} component={Chat}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/app-calender`} component={Calender}></Route>
+        {/* <Route exact path={`${process.env.PUBLIC_URL}/app-calender`} component={Calender}></Route> */}
         <Route
           exact
           path={`${process.env.PUBLIC_URL}/app-file-manager`}
