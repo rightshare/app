@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import Logo from "../../images/logo.png";
 import LogoDark from "../../images/logo-dark.png";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-// import { signIn, useSession } from "next-auth/react";
-import { useAccount, useSignMessage, useNetwork } from "wagmi";
-import { useEffect } from "react";
-
 import PageContainer from "../../layout/page-container/PageContainer";
 import Head from "../../layout/head/Head";
 import AuthFooter from "./AuthFooter";
@@ -24,54 +19,64 @@ import { Form, FormGroup, Spinner, Alert } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
+import { ConnectButton, createAuthenticationAdapter } from "@rainbow-me/rainbowkit";
+import { signIn, useSession } from "next-auth/react";
+import { useAccount, useConnect, useSignMessage, useDisconnect } from "wagmi";
+import { MagicConnector } from "@everipedia/wagmi-magic-connector";
+
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+
+import { SiweMessage } from "siwe";
+import { useMoralis } from "react-moralis";
+
+// const authenticationAdapter = createAuthenticationAdapter({
+//   getNonce: async () => {
+//     const response = await fetch("/api/nonce");
+//     return await response.text();
+//   },
+
+//   createMessage: ({ nonce, address, chainId }) => {
+//     return new SiweMessage({
+//       domain: window.location.host,
+//       address,
+//       statement: "Sign in with Ethereum to the app.",
+//       uri: window.location.origin,
+//       version: "1",
+//       chainId,
+//       nonce,
+//     });
+//   },
+
+//   getMessageBody: ({ message }) => {
+//     return message.prepareMessage();
+//   },
+
+//   verify: async ({ message, signature }) => {
+//     const verifyRes = await fetch("/api/verify", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ message, signature }),
+//     });
+
+//     return Boolean(verifyRes.ok);
+//   },
+
+//   signOut: async () => {
+//     await fetch("/api/logout");
+//   },
+// });
+
+// import { SiweMessage } from "siwe";
+
 const Login = () => {
-  const { isConnected, address } = useAccount();
-  const { chain } = useNetwork();
-  const { status } = "unauthenticated";
-  const { signMessageAsync } = useSignMessage();
-  // const { push } = useRouter();
+  const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
 
   useEffect(() => {
-    const handleAuth = async () => {
-      const userData = { address, chain: chain.id, network: "evm" };
+    if (isAuthenticated) {
+      // add your logic here
 
-      const { data } = await axios.post("/api/auth/request-message", userData, {
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-
-      const message = data.message;
-
-      const signature = await signMessageAsync({ message });
-
-      // redirect user after success authentication to '/user' page
-      const { url } = await signIn("credentials", {
-        message,
-        signature,
-        redirect: false,
-        callbackUrl: "/user",
-      });
-      /**
-       * instead of using signIn(..., redirect: "/user")
-       * we get the url from callback and push it to the router to avoid page refreshing
-       */
-      // push(url);
-    };
-    if (status === "unauthenticated" && isConnected) {
-      handleAuth();
-    }
-  }, [status, isConnected]);
-
-  const [loading, setLoading] = useState(false);
-  const [passState, setPassState] = useState(false);
-  const [errorVal, setError] = useState("");
-
-  const onFormSubmit = (formData) => {
-    setLoading(true);
-    const loginName = "info@softnio.com";
-    const pass = "123456";
-    if (isConnected === true) {
       localStorage.setItem("accessToken", "token");
       setTimeout(() => {
         window.history.pushState(
@@ -82,11 +87,56 @@ const Login = () => {
         window.location.reload();
       }, 2000);
     } else {
-      setTimeout(() => {
-        setError("Cannot login please connect your wallet first");
-        setLoading(false);
-      }, 2000);
+      // setTimeout(() => {
+      //   setError("Cannot login please connect your wallet first");
+      //   setLoading(false);
+      // }, 2000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+
+  const login = async () => {
+    if (!isAuthenticated) {
+      await authenticate({ signingMessage: "Login to Invoice Block" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
+
+  // const logOut = async () => {
+  //   await logout();
+  //   console.log("logged out");
+  // };
+
+  const [loading, setLoading] = useState(false);
+  const [passState, setPassState] = useState(false);
+  const [errorVal, setError] = useState("");
+
+  const onFormSubmit = (formData) => {
+    setLoading(true);
+    // const loginName = "info@softnio.com";
+    // const pass = "123456";
+    // if (isConnected === true) {
+    //   localStorage.setItem("accessToken", "token");
+    //   setTimeout(() => {
+    //     window.history.pushState(
+    //       `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
+    //       "auth-login",
+    //       `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
+    //     );
+    //     window.location.reload();
+    //   }, 2000);
+    // } else {
+    //   setTimeout(() => {
+    //     setError("Cannot login please connect your wallet first");
+    //     setLoading(false);
+    //   }, 2000);
+    // }
   };
 
   //aanand auto 9879556611
@@ -119,7 +169,7 @@ const Login = () => {
               <div className="mb-3">
                 <Alert color="danger" className="alert-icon">
                   {" "}
-                  <Icon name="alert-circle" /> Unable to login please connect the wallet{" "}
+                  <Icon name="alert-circle" /> Please connect the wallet
                 </Alert>
               </div>
             )}
@@ -177,12 +227,16 @@ const Login = () => {
                   {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
                 </div>
                 <div style={{ alignItems: "center" }} className="form-note-s2 text-center pt-4">
-                  <ConnectButton type="submit"></ConnectButton>
+                  <ConnectButton></ConnectButton>
                 </div>
               </FormGroup>
               <FormGroup>
-                <Button size="lg" className="btn-block" type="submit" color="primary">
+                {/* <Button size="lg" className="btn-block" type="submit" color="primary">
                   {loading ? <Spinner size="sm" color="light" /> : "Get Started"}
+                </Button> */}
+
+                <Button size="lg" className="btn-block" color="primary" onClick={login}>
+                  Metamask Login
                 </Button>
               </FormGroup>
             </Form>

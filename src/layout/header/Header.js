@@ -7,8 +7,17 @@ import User from "./dropdown/user/User";
 import Notification from "./dropdown/notification/Notification";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useConnect, useSignMessage, useDisconnect, useNetwork } from "wagmi";
+import { useMoralis } from "react-moralis";
 
 const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
+  const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
+
+  const logOut = async () => {
+    await logout();
+    localStorage.removeItem("accessToken");
+    console.log("logged out");
+  };
+
   const { isConnected, address } = useAccount();
   const { chain } = useNetwork();
   const { status } = "unauthenticated";
@@ -75,7 +84,11 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
             <ul className="nk-quick-nav">
               <li className="user-dropdown" onClick={() => setVisibility(false)}>
                 <User />
-                <ConnectButton onClick={handleSignout} />
+                <ConnectButton />
+                {user.get("ethAddress")}
+                <a href={`${process.env.PUBLIC_URL}/auth-login`} onClick={handleSignout}>
+                  <button onClick={logOut}>Logout</button>
+                </a>
               </li>
               <li className="notification-dropdown mr-n1" onClick={() => setVisibility(false)}>
                 {/* <Notification /> */}
