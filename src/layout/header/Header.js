@@ -8,6 +8,7 @@ import Notification from "./dropdown/notification/Notification";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useConnect, useSignMessage, useDisconnect, useNetwork } from "wagmi";
 import { useMoralis } from "react-moralis";
+import { Button } from "reactstrap";
 
 const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
   const { authenticate, isAuthenticated, isAuthenticating, user, account, logout } = useMoralis();
@@ -82,14 +83,15 @@ const Header = ({ fixed, theme, className, setVisibility, ...props }) => {
           <div className="nk-header-news d-none d-xl-block">{/* <News /> */}</div>
           <div className="nk-header-tools">
             <ul className="nk-quick-nav">
-              <li className="user-dropdown" onClick={() => setVisibility(false)}>
-                <User />
-                <ConnectButton />
-                {user.get("ethAddress")}
-                <a href={`${process.env.PUBLIC_URL}/auth-login`} onClick={handleSignout}>
-                  <button onClick={logOut}>Logout</button>
-                </a>
-              </li>
+              {/* <li className="user-dropdown" onClick={() => setVisibility(false)}> */}
+              {/* <User /> */}
+              <ConnectButton />
+              {user.get("ethAddress")}
+              &nbsp;&nbsp;&nbsp;
+              <a href={`${process.env.PUBLIC_URL}/auth-login`} onClick={handleSignout}>
+                <Button onClick={logOut}>Logout</Button>
+              </a>
+              {/* </li> */}
               <li className="notification-dropdown mr-n1" onClick={() => setVisibility(false)}>
                 {/* <Notification /> */}
               </li>

@@ -96,36 +96,36 @@ const App = () => {
           serverUrl="https://oi374rl4scr1.usemoralis.com:2053/server"
           appId="TxA6eqcA7Kywf5RiM1oQvP2L3Njx0ZaqQSPhzKlg"
         >
-          <RainbowKitAuthenticationProvider adapter={authenticationAdapter} status={"loading"}>
-            <RainbowKitProvider chains={chains}>
-              <Switch>
-                {/* Auth Pages */}
-                <Route exact path={`${process.env.PUBLIC_URL}/auth-success`} component={Success}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} component={ForgotPassword}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} component={Register}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} component={Login}></Route>
+          {/* <RainbowKitAuthenticationProvider adapter={authenticationAdapter} status={"loading"}> */}
+          <RainbowKitProvider chains={chains}>
+            <Switch>
+              {/* Auth Pages */}
+              <Route exact path={`${process.env.PUBLIC_URL}/auth-success`} component={Success}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} component={ForgotPassword}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} component={Register}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} component={Login}></Route>
 
-                {/* Print Pages */}
-                <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} component={InvoicePrint}></Route>
+              {/* Print Pages */}
+              <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} component={InvoicePrint}></Route>
 
-                {/* Helper pages */}
-                <Route exact path={`${process.env.PUBLIC_URL}/auths/terms`} component={Terms}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/auths/faq`} component={Faq}></Route>
+              {/* Helper pages */}
+              <Route exact path={`${process.env.PUBLIC_URL}/auths/terms`} component={Terms}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/auths/faq`} component={Faq}></Route>
 
-                <Route exact path={`${process.env.PUBLIC_URL}/invoice-print`} component={InvoicePrint}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/invoice-print`} component={InvoicePrint}></Route>
 
-                {/*Error Pages*/}
-                <Route exact path={`${process.env.PUBLIC_URL}/errors/404-classic`} component={Error404Classic}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/errors/504-modern`} component={Error504Modern}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/errors/404-modern`} component={Error404Modern}></Route>
-                <Route exact path={`${process.env.PUBLIC_URL}/errors/504-classic`} component={Error504Classic}></Route>
+              {/*Error Pages*/}
+              <Route exact path={`${process.env.PUBLIC_URL}/errors/404-classic`} component={Error404Classic}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/errors/504-modern`} component={Error504Modern}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/errors/404-modern`} component={Error404Modern}></Route>
+              <Route exact path={`${process.env.PUBLIC_URL}/errors/504-classic`} component={Error504Classic}></Route>
 
-                {/*Main Routes*/}
-                <PrivateRoute exact path="" component={Layout}></PrivateRoute>
-                <Route component={RedirectAs404}></Route>
-              </Switch>
-            </RainbowKitProvider>
-          </RainbowKitAuthenticationProvider>
+              {/*Main Routes*/}
+              <PrivateRoute exact path="" component={Layout}></PrivateRoute>
+              <Route component={RedirectAs404}></Route>
+            </Switch>
+          </RainbowKitProvider>
+          {/* </RainbowKitAuthenticationProvider> */}
         </MoralisProvider>
       </WagmiConfig>
     </>
